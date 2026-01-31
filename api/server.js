@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const nodeFetch = require('node-fetch'); // Use node-fetch for server-side fetching
+import fetch from 'node-fetch'; // Use node-fetch for server-side fetching
 const app = express();
 
 app.use(cors()); // Enable CORS for all routes
