@@ -1,8 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "node local-server.js",
-    "start": "node index.js"
+    "dev": "node local-server.js"
   },
   "dependencies": {
     "cors": "^2.8.6",
