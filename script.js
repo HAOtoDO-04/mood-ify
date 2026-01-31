@@ -195,13 +195,19 @@ generateButton.addEventListener('click', async () => {
 
         tracks.forEach(track => {
             const streamable = track.querySelector('streamable')?.textContent;
-            if (streamable === '1') { // Assuming '0' means not streamable
-                return; // Skip this track if not streamable
+            // Skip this track if it's not streamable (streamable !== '1')
+            if (streamable !== '1') {
+                return;
             }
 
             const title = track.querySelector('name')?.textContent || 'Unknown Title';
             const artist = track.querySelector('artist')?.textContent || 'Unknown Artist';
-            const trackUrl = track.querySelector('url')?.textContent || '#';
+            const trackUrl = track.querySelector('url')?.textContent; // Get the URL
+
+            // Skip this track if it has no URL or the URL is just '#'
+            if (!trackUrl || trackUrl === '#') {
+                return;
+            }
 
             const playlist = {
                 title: `${title} - ${artist}`,
