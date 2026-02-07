@@ -43,6 +43,10 @@ export default async function (req, res) {
         res.send(data);
     } catch (error) {
         console.error('Error fetching from Last.fm API:', error);
-        res.status(500).json({ error: 'Failed to fetch music from Last.fm.' });
+        res.status(500).json({
+            error: 'Failed to fetch music from Last.fm.',
+            details: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
     }
 };
