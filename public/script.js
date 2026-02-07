@@ -215,7 +215,7 @@ generateButton.addEventListener('click', async () => {
         playlistCardsContainer.style.display = 'flex'; // Display the container with new cards
     } catch (error) {
         console.error('Error fetching music:', error);
-        alert('Failed to fetch music. Please try again later.');
+        alert(`Failed to fetch music: ${error.message}`);
         playlistCardsContainer.style.display = 'block'; // Ensure container is visible to show error or no results
     }
 });
