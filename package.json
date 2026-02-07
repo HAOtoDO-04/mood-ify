@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "dev": "node local-server.js",
-    "build": "exit 0",
+    "build": "echo 'No build step'",
     "start": "node local-server.js"
   },
   "dependencies": {
