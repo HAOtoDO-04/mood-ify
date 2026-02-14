@@ -135,6 +135,41 @@ const playlistCardsContainer = document.getElementById('playlist-cards-container
 // Get the "No playlists message" element
 const noPlaylistsMessage = document.getElementById('no-playlists-message');
 
+// --- SoundCloud Widget Logic ---
+const widgetIframe = document.getElementById('sc-widget');
+const widgetContainer = document.getElementById('widget-container');
+const closeWidgetButton = document.getElementById('close-widget');
+let scWidget = null;
+
+if (typeof SC !== 'undefined' && widgetIframe) {
+    scWidget = SC.Widget(widgetIframe);
+}
+
+closeWidgetButton?.addEventListener('click', () => {
+    widgetContainer.style.display = 'none';
+    if (scWidget) scWidget.pause();
+});
+
+function playInWidget(trackUrl) {
+    if (!scWidget) {
+        console.error('SoundCloud Widget API not loaded');
+        window.open(trackUrl, '_blank');
+        return;
+    }
+
+    // Attempt to load the URL into the widget
+    // Note: This works best with soundcloud.com URLs
+    scWidget.load(trackUrl, {
+        auto_play: true,
+        show_comments: false,
+        show_user: true,
+        show_reposts: false,
+        visual: true
+    });
+
+    widgetContainer.style.display = 'block';
+}
+
 // Function to create a playlist card
 function createPlaylistCard(playlist) {
     const card = document.createElement('div');
@@ -148,11 +183,31 @@ function createPlaylistCard(playlist) {
     description.textContent = playlist.description;
     card.appendChild(description);
 
+    const buttonGroup = document.createElement('div');
+    buttonGroup.style.display = 'flex';
+    buttonGroup.style.gap = '10px';
+    buttonGroup.style.justifyContent = 'center';
+
+    const playBtn = document.createElement('button');
+    playBtn.textContent = '▶ Play';
+    playBtn.style.padding = '8px 15px';
+    playBtn.style.borderRadius = '20px';
+    playBtn.style.border = 'none';
+    playBtn.style.backgroundColor = '#ff5500'; // SoundCloud Orange
+    playBtn.style.color = 'white';
+    playBtn.style.cursor = 'pointer';
+    playBtn.style.fontWeight = 'bold';
+    playBtn.onclick = () => playInWidget(playlist.url);
+    buttonGroup.appendChild(playBtn);
+
     const link = document.createElement('a');
     link.href = playlist.url;
-    link.textContent = 'Listen Now';
-    link.target = '_blank'; // Open in new tab
-    card.appendChild(link);
+    link.textContent = 'View';
+    link.target = '_blank';
+    link.style.backgroundColor = '#6c757d'; // Neutral color for external link
+    buttonGroup.appendChild(link);
+
+    card.appendChild(buttonGroup);
 
     return card;
 }

@@ -83,6 +83,17 @@
         </div>
     </div>
     <div class="popup-trigger" id="popupTrigger"><img src="cd_img.png" alt="CD Icon" class="cd-icon"></div>
+
+    <!-- SoundCloud Widget Container -->
+    <div id="widget-container"
+        style="display: none; position: fixed; bottom: 80px; right: 20px; z-index: 1001; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        <button id="close-widget"
+            style="position: absolute; top: -10px; right: -10px; border-radius: 50%; width: 25px; height: 25px; border: none; background: #ff4444; color: white; cursor: pointer;">×</button>
+        <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url=https://api.soundcloud.com/tracks/293"
+            width="300" height="166" scrolling="no" frameborder="no" allow="autoplay"></iframe>
+    </div>
+
+    <script src="https://w.soundcloud.com/player/api.js"></script>
     <script src="script.js"></script>
 </body>
 
