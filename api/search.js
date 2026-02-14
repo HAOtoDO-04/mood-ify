@@ -1,11 +1,7 @@
 const MOOD_MAP = {
     // Happy, Joyful, Excited, Energetic, Hyper, Motivated, Confident, Grateful
     positive: [
-        'https://soundcloud.com/nocopyrightsounds/sets/ncs-best-of-all-time',
-        'https://soundcloud.com/mons-music/sets/upbeat-happy-music-2024',
-        'https://soundcloud.com/user-391301931/sets/upbeat-happy-instrumentals',
-        'https://soundcloud.com/monstercat/sets/monstercat-best-of-2023',
-        'https://soundcloud.com/majesticcasual/sets/majestic-casual-best-of'
+        'https://soundcloud.com/buzzing-playlists/sets/buzzing-r-b'
     ],
     calm: [
         'https://soundcloud.com/lofigirl/sets/lofi-hip-hop-music',
