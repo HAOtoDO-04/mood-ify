@@ -83,50 +83,6 @@ body {
     /* Keep same color on hover when deselected */
 }
 
-.popup-trigger {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background-color: #28a745;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.cd-icon {
-    /* Target the CD image directly */
-    width: 100%;
-    /* Make image fill the popup-trigger */
-    height: 100%;
-    object-fit: contain;
-    /* Ensure the image fits without cropping */
-    animation: rotate 3s linear infinite;
-    /* Apply rotation animation */
-}
-
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.popup-trigger:hover {
-    width: 150px;
-    /* Enlarge width on hover */
-    height: 150px;
-    /* Enlarge height on hover */
-    /* No change to bottom/right, so it expands from bottom-right */
-}
 
 .small-overlay {
     background-color: lightcyan;

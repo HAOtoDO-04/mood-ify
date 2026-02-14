@@ -1,4 +1,3 @@
-// const popupTrigger = document.getElementById('popupTrigger');
 const moodButtons = document.querySelectorAll('.mood-button');
 const cardOverlay = document.querySelector('.card-overlay');
 
