@@ -135,79 +135,22 @@ const playlistCardsContainer = document.getElementById('playlist-cards-container
 // Get the "No playlists message" element
 const noPlaylistsMessage = document.getElementById('no-playlists-message');
 
-// --- SoundCloud Widget Logic ---
-const widgetIframe = document.getElementById('sc-widget');
-const widgetContainer = document.getElementById('widget-container');
-const closeWidgetButton = document.getElementById('close-widget');
-let scWidget = null;
-
-if (typeof SC !== 'undefined' && widgetIframe) {
-    scWidget = SC.Widget(widgetIframe);
-}
-
-closeWidgetButton?.addEventListener('click', () => {
-    widgetContainer.style.display = 'none';
-    if (scWidget) scWidget.pause();
-});
-
-function playInWidget(trackUrl) {
-    if (!scWidget) {
-        console.error('SoundCloud Widget API not loaded');
-        window.open(trackUrl, '_blank');
-        return;
-    }
-
-    // Attempt to load the URL into the widget
-    // Note: This works best with soundcloud.com URLs
-    scWidget.load(trackUrl, {
-        auto_play: true,
-        show_comments: false,
-        show_user: true,
-        show_reposts: false,
-        visual: true
-    });
-
-    widgetContainer.style.display = 'block';
-}
-
-// Function to create a playlist card
+// Function to create a playlist card with an embedded SoundCloud widget
 function createPlaylistCard(playlist) {
     const card = document.createElement('div');
     card.classList.add('playlist-card');
+    card.style.width = '100%'; // Make cards wider for the widget
+    card.style.maxWidth = '600px';
 
-    const title = document.createElement('h4');
-    title.textContent = playlist.title;
-    card.appendChild(title);
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(playlist.url)}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`;
+    iframe.width = "100%";
+    iframe.height = "166";
+    iframe.scrolling = "no";
+    iframe.frameBorder = "no";
+    iframe.allow = "autoplay";
 
-    const description = document.createElement('p');
-    description.textContent = playlist.description;
-    card.appendChild(description);
-
-    const buttonGroup = document.createElement('div');
-    buttonGroup.style.display = 'flex';
-    buttonGroup.style.gap = '10px';
-    buttonGroup.style.justifyContent = 'center';
-
-    const playBtn = document.createElement('button');
-    playBtn.textContent = '▶ Play';
-    playBtn.style.padding = '8px 15px';
-    playBtn.style.borderRadius = '20px';
-    playBtn.style.border = 'none';
-    playBtn.style.backgroundColor = '#ff5500'; // SoundCloud Orange
-    playBtn.style.color = 'white';
-    playBtn.style.cursor = 'pointer';
-    playBtn.style.fontWeight = 'bold';
-    playBtn.onclick = () => playInWidget(playlist.url);
-    buttonGroup.appendChild(playBtn);
-
-    const link = document.createElement('a');
-    link.href = playlist.url;
-    link.textContent = 'View';
-    link.target = '_blank';
-    link.style.backgroundColor = '#6c757d'; // Neutral color for external link
-    buttonGroup.appendChild(link);
-
-    card.appendChild(buttonGroup);
+    card.appendChild(iframe);
 
     return card;
 }
@@ -231,32 +174,18 @@ generateButton.addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch(`/api/lastfm/track-search?mood=${encodeURIComponent(selectedMoodText)}`);
-        if (!response.ok) {
-            let errorMessage = `HTTP error! status: ${response.status}`;
-            try {
-                const text = await response.text();
-                try {
-                    const errorData = JSON.parse(text);
-                    if (errorData.error) errorMessage = errorData.error;
-                } catch {
-                    // If not JSON, use the text body (likely HTML or plain text)
-                    // Truncate if too long (e.g. HTML page)
-                    const preview = text.slice(0, 200);
-                    console.warn('Response was not JSON:', text);
-                    errorMessage = `Server Error (${response.status}): ${preview}`;
-                }
-            } catch (e) {
-                console.warn('Could not read response text', e);
-            }
-            throw new Error(errorMessage);
-        }
-        const xmlText = await response.text();
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, 'application/xml');
+        // Find the full button text (with emoji) to match the API category
+        const selectedButton = Array.from(moodButtons).find(btn => btn.textContent.includes(selectedMoodText));
+        const fullMoodText = selectedButton ? selectedButton.textContent.trim() : selectedMoodText;
 
-        const tracks = xmlDoc.querySelectorAll('track');
-        if (tracks.length === 0) {
+        const response = await fetch(`/api/search?mood=${encodeURIComponent(fullMoodText)}`);
+        if (!response.ok) {
+            throw new Error(`Server Error (${response.status})`);
+        }
+
+        const playlists = await response.json();
+
+        if (playlists.length === 0) {
             const noResultsMessage = document.createElement('p');
             noResultsMessage.id = 'no-playlists-message';
             noResultsMessage.textContent = `No tracks found for mood: ${selectedMoodText}.`;
@@ -265,40 +194,20 @@ generateButton.addEventListener('click', async () => {
             return;
         }
 
-        tracks.forEach(track => {
-            const title = track.querySelector('name')?.textContent || 'Unknown Title';
-            const artist = track.querySelector('artist > name')?.textContent || track.querySelector('artist')?.textContent || 'Unknown Artist';
-            const trackUrl = track.querySelector('url')?.textContent; // Get the URL
-
-            // Skip this track if it has no URL or the URL is just '#'
-            if (!trackUrl || trackUrl === '#') {
-                return;
-            }
-
-            const playlist = {
-                title: `${title} - ${artist}`,
-                description: `Track by ${artist}`,
-                url: trackUrl
-            };
+        playlists.forEach(playlist => {
             const newCard = createPlaylistCard(playlist);
             playlistCardsContainer.appendChild(newCard);
         });
 
-        if (playlistCardsContainer.children.length === 0) {
-            const noResultsMessage = document.createElement('p');
-            noResultsMessage.id = 'no-playlists-message';
-            noResultsMessage.textContent = `No tracks found for mood: ${selectedMoodText}. Try another mood!`;
-            playlistCardsContainer.appendChild(noResultsMessage);
-            playlistCardsContainer.style.display = 'block';
-            return;
-        }
-
-        playlistCardsContainer.style.display = 'flex'; // Display the container with new cards
+        playlistCardsContainer.style.display = 'flex';
+        playlistCardsContainer.style.flexDirection = 'column'; // Stack the widgets vertically
+        playlistCardsContainer.style.alignItems = 'center';
     } catch (error) {
         console.error('Error fetching music:', error);
         alert(`Failed to fetch music: ${error.message}`);
-        playlistCardsContainer.style.display = 'block'; // Ensure container is visible to show error or no results
+        playlistCardsContainer.style.display = 'block';
     }
 });
+
 
 
