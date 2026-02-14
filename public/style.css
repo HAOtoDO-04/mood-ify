@@ -1,119 +1,15 @@
-:root {
-    --mood-color-main: #f0f0f0;
-    --mood-color-accent: #ffffff;
-    --mood-color-glow: rgba(255, 255, 255, 0.5);
-}
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #000;
-    overflow-x: hidden;
+    background-color: #f0f0f0;
+    /* Revert to solid background for JS to control */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-.liquid-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    background-color: #1a1a1a;
-    overflow: hidden;
-    filter: blur(40px) contrast(1.2);
-}
-
-.liquid-background::before,
-.liquid-background::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    filter: blur(60px);
-    pointer-events: none;
-}
-
-/* The main spreading puddle */
-.liquid-background::before {
-    width: 10vmax;
-    height: 10vmax;
-    background: radial-gradient(circle, var(--mood-color-main), transparent 70%);
-    opacity: 0.8;
-    animation: liquid-puddle 8s ease-out forwards, liquid-ripple 15s infinite alternate ease-in-out;
-}
-
-/* The secondary organic flow */
-.liquid-background::after {
-    width: 80vmax;
-    height: 80vmax;
-    background: radial-gradient(circle, var(--mood-color-accent), transparent 60%);
-    opacity: 0.3;
-    animation: liquid-float 20s infinite alternate ease-in-out;
-}
-
-/* Triggered animation for "spreading" effect */
-.liquid-background.animate::before {
-    animation: none;
-    /* Reset */
-    height: 10vmax;
-    width: 10vmax;
-    /* Force reflow */
-}
-
-@keyframes liquid-puddle {
-    0% {
-        transform: translate(-50%, -50%) scale(0.1);
-        opacity: 0;
-    }
-
-    30% {
-        opacity: 0.8;
-    }
-
-    100% {
-        transform: translate(-50%, -50%) scale(15);
-        opacity: 0.6;
-    }
-}
-
-@keyframes liquid-ripple {
-    0% {
-        border-radius: 50% 50% 50% 50%;
-        transform: translate(-50%, -50%) scale(15) rotate(0deg);
-    }
-
-    33% {
-        border-radius: 40% 60% 70% 30%;
-    }
-
-    66% {
-        border-radius: 60% 40% 30% 70%;
-    }
-
-    100% {
-        border-radius: 50% 50% 50% 50%;
-        transform: translate(-50%, -50%) scale(15) rotate(360deg);
-    }
-}
-
-@keyframes liquid-float {
-    0% {
-        transform: translate(-60%, -40%) scale(1);
-    }
-
-    100% {
-        transform: translate(-40%, -60%) scale(1.2);
-    }
-}
-
 .navbar {
-    background-color: rgba(51, 51, 51, 0.8);
-    backdrop-filter: blur(10px);
+    background-color: #333;
     color: white;
     padding: 1em 0;
 }
@@ -143,16 +39,14 @@ body {
 }
 
 .card-overlay {
-    background-color: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(15px);
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    margin: 40px auto;
-    padding: 30px;
-    width: 85%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    padding: 20px;
+    width: 80%;
     max-width: 1000px;
     flex-grow: 1;
-    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .mood-buttons {
