@@ -102,27 +102,39 @@ moodButtons.forEach(button => {
 
 let selectedMoodText = ''; // Variable to store the currently selected mood
 
+const liquidBg = document.querySelector('.liquid-background');
+
 moodButtons.forEach(button => {
     button.addEventListener('click', () => {
         const buttonText = button.textContent.trim();
         // Remove emojis and keep only text
         selectedMoodText = button.textContent.replace(/[^\p{L}\p{N}\s]/gu, '').trim();
         const selectedColor = moodColors[buttonText] || '#007bff'; // Default blue if not found
-        const lighterColor = lightenColor(selectedColor, 0.3); // Lighten by 30%
+        const lighterColor = lightenColor(selectedColor, 0.4); // Lighten by 40% for accent
 
+        // Update Mood Buttons UI
         moodButtons.forEach(btn => {
             if (btn !== button) {
-                btn.style.backgroundColor = '#6c757d'; // Deselected color
+                btn.classList.add('deselected');
+                btn.style.backgroundColor = '#6c757d';
                 btn.style.color = '#e9ecef';
             } else {
-                btn.style.backgroundColor = selectedColor; // Apply specific mood color
+                btn.classList.remove('deselected');
+                btn.style.backgroundColor = selectedColor;
                 btn.style.color = 'white';
             }
         });
 
-        // Update body background with a gradient
-        if (document.body) {
-            document.body.style.background = `linear-gradient(to bottom right, ${lighterColor}, ${selectedColor})`;
+        // Update Liquid Background
+        if (liquidBg) {
+            // Update CSS variables for the liquid effect
+            document.documentElement.style.setProperty('--mood-color-main', selectedColor);
+            document.documentElement.style.setProperty('--mood-color-accent', lighterColor);
+
+            // Restart the "spreading" animation
+            liquidBg.classList.remove('animate');
+            void liquidBg.offsetWidth; // Force reflow to restart animation
+            liquidBg.classList.add('animate');
         }
     });
 });
