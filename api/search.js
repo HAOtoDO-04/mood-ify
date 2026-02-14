@@ -1,36 +1,29 @@
 const MOOD_MAP = {
-    // Happy, Joyful, Excited, Energetic, Hyper, Motivated, Confident, Grateful
-    positive: [
-        'https://soundcloud.com/buzzing-playlists/sets/buzzing-r-b'
-    ],
-    calm: [
-        'https://soundcloud.com/lofigirl/sets/lofi-hip-hop-music',
-        'https://soundcloud.com/dreamy-vibes/sets/dreamy-lofi',
-        'https://soundcloud.com/ambient-music-garden/sets/peaceful-ambient',
-        'https://soundcloud.com/mindful-sounds/sets/meditation-and-mindfulness',
-        'https://soundcloud.com/chilledcow/sets/lofi-hip-hop-radio-beats-to'
-    ],
-    sad: [
-        'https://soundcloud.com/emotional-tracks/sets/heartbroken-vibes',
-        'https://soundcloud.com/sadclown/sets/sad-piano-melodies',
-        'https://soundcloud.com/stay-sad/sets/lonely-nights',
-        'https://soundcloud.com/rainy-days-music/sets/gloomy-afternoon',
-        'https://soundcloud.com/berlinist/sets/melancholy'
-    ],
-    intense: [
-        'https://soundcloud.com/rock-anthems/sets/heavy-rock-pumping',
-        'https://soundcloud.com/techno-dark-side/sets/dark-techno-mix',
-        'https://soundcloud.com/aggressive-beats/sets/furious-intensity',
-        'https://soundcloud.com/metal-tracks/sets/aggressive-metal',
-        'https://soundcloud.com/dark-techno-tracks/sets/best-dark-techno'
-    ],
-    focus: [
-        'https://soundcloud.com/creative-flow/sets/focus-and-creativity',
-        'https://soundcloud.com/deep-focus-beats/sets/study-music-2024',
-        'https://soundcloud.com/minimal-beats/sets/minimalist-productivity',
-        'https://soundcloud.com/classical-focus/sets/classical-for-work',
-        'https://soundcloud.com/sleepy-vibes/sets/deep-sleep-ambient'
-    ]
+  positive: [
+       'https://soundcloud.com/relaxedmindmusicuniverse/sets/positive-music-for-positive?utm_source=chatgpt.com',
+       'https://m.soundcloud.com/academyofpowerfulmusicwithpositiveenergy/sets/feel-confident-relaxing-music?utm_source=chatgpt.com',
+       'https://soundcloud.com/positivethinkingworld/sets/positive-thinking-world-happy'
+  ],
+  calm: [
+       'https://soundcloud.com/sound-playlist/sets/30-best-tracks-to-calm-and?utm_source=chatgpt.com',
+       'https://soundcloud.com/user-159209928/sets/calm-music',
+       'https://soundcloud.com/calmingwaterconsort/sets/calm-energy-and-focus-music'
+  ],
+  sad: [
+       'https://soundcloud.com/idla/sets/sad-songs',
+       'https://soundcloud.com/user-251423738/sad-songs-playlist-2020-that?in=yulisa-isidoro%2Fsets%2Fsad',
+       'https://soundcloud.com/chilledsad/depression?in=oxpj40el2g1x%2Fsets%2Fme'
+  ],
+  intense: [
+       'https://soundcloud.com/globeats/sets/sad-trap-beats-emotional-piano',
+       'https://soundcloud.com/davidsanyabeats/sets/lofitypebeatlo',
+       'https://m.soundcloud.com/neomelodies/sets/alpha-waves-for-relaxed-focus'
+  ],
+  focus: [
+       'https://soundcloud.com/relaxdaily/sets/deep-focus-music-studying-concentration-work',
+       'https://soundcloud.com/relaxdaily/sets/relaxing-piano-music-calming-study-focus',
+       'https://soundcloud.com/relaxdaily/sets/season-3-best-of-music-calm-peaceful-focus'
+  ]
 };
 
 const MOOD_CATEGORIES = {
